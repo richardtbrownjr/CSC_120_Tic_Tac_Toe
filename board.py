@@ -1,11 +1,13 @@
 # CSC_120_Tic_Tac_Toe
 #stage 1
+import os
 
-board = ["-","-","-","-","-","-","-","-","-",]
+board = ["-","-","-","-","-","-","-","-"]
 user = True
 #https://www.geeksforgeeks.org/print-lists-in-python-4-different-ways/
 
 def printboard(board):
+    os.system('clear')
     print("Printing Board")
     for i in range(0, len(board), 3):
             print(*board[i:i+3], sep=' ')
@@ -16,13 +18,14 @@ def printboard(board):
 
 def checkboard(userinput, board, playerup):
     if board[userinput] == "-":
+        userinput = userinput-1
         board.insert(userinput, playerup)
         printboard(board)
     else:
         print("position already taken")
 
 def quit(userinput):
-    if userinput == "q":
+    if userinput == 11:
         return True
     else:
         return False
@@ -34,7 +37,7 @@ def whoison(user):
 
 while True:
     playerup = whoison(user)
-    userinput = int(input("Please enter 1-9 or 'q' to quit: "))
+    userinput = int(input("Please enter 1-9 or 11 to quit: "))
     if quit(userinput):
         break
     if userinput in range(1,9):
