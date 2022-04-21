@@ -1,20 +1,21 @@
 # CSC_120_Tic_Tac_Toe
-#stage 1
 import os
+import sqlite3
 
-#board = ["-","-","-","-","-","-","-","-"]
 board = ["-","-","-","-","-","-","-","-"]
 user = True
+#
 #https://www.geeksforgeeks.org/print-lists-in-python-4-different-ways/
 
 def printboard(board):
     os.system('clear')
     print("Printing Board")
     #print(board)
-    for i in range(0, len(board), 3):
+    for i in range(0, 9, 3):
         print(*board[i:i+3], sep=' ')
         print()
     print("board printed")
+    #print("Here is the turn", turn)
     whowon(board,playerup)
 
 def checkboard(userinput, board, playerup):
@@ -24,35 +25,53 @@ def checkboard(userinput, board, playerup):
         printboard(board)
     else:
         print("position already taken")
+    try:
+        sqliteConnection = sqlite3.connect('tic_tac.db')
+        cursor = sqliteConnection.cursor()
+        print("Database created and Successfully Connected to SQLite")
+
+        sqlite_select_Query = "select sqlite_version();"
+        cursor.execute(sqlite_select_Query)
+        record = cursor.fetchall()
+        print("SQLite Database Version is: ", record)
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Error while connecting to sqlite", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+            print("The SQLite connection is closed")
 
 def whowon(board,playerup):
     #across wins
+
     if (board[0] and board[1] and board[2]) == playerup:
         print("Player", playerup, "won")
-        #quit()
+        quit()
     if (board[3] and board[4] and board[5]) == playerup:
         print("Player", playerup, "won")
-        #quit()
+        quit()
     if (board[6] and board[7] and board[8]) == playerup:
         print("Player", playerup, "won")
-        #quit()
+        quit()
     #up and down wins
     if (board[0] and board[3] and board[6]) == playerup:
         print("Player", playerup, "won")
-        #quit()
+        quit()
     if (board[1] and board[4] and board[7]) == playerup:
         print("Player", playerup, "won")
-        #quit()
+        quit()
     if (board[2] and board[5] and board[8]) == playerup:
         print("Player", playerup, "won")
-        #quit()
+        quit()
     #diagonal wins
     if (board[0] and board[4] and board[8]) == playerup:
         print("Player", playerup, "won")
-        #quit()
+        quit()
     if (board[2] and board[4] and board[6]) == playerup:
         print("Player", playerup, "won")
-        #quit()
+        quit()
 
 def quit1(userinput):
     if userinput == 11:
@@ -75,5 +94,5 @@ while True:
     user = not user
 
 #https://docs.gitlab.com/ee/user/project/repository/gpg_signed_commits/#associate-your-gpg-key-with-git
-
+os.system('clear')
 printboard(board)
